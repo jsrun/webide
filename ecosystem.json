@@ -1,0 +1,9 @@
+{
+    "apps": [{
+        "script": "app.js",
+        "name": "webide",
+        "exec_mode": "cluster",
+        "instances" : "max",
+        "node_args": ""
+    }]
+}

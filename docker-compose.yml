@@ -1,0 +1,28 @@
+version: '2'
+services:
+    mongodata:  
+        image: mongo
+        volumes:
+            - /data/db
+        command: --break-mongo
+    mongo:
+        image: mongo
+        ports:
+            - "27017:27017"
+        command: "--smallfiles --logpath=/dev/null"
+        volumes_from:
+            - mongodata
+    webide:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        command: node_modules/.bin/nodemon --exec npm start
+        environment:
+            NODE_ENV: prod
+        ports:
+            - 3000:3000
+        links:
+            - mongo
+        volumes:
+            - .:/home/app
+            - /home/app/node_modules
