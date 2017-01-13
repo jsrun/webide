@@ -17,6 +17,7 @@ Fully web-based multi-language development application
 * Nodejs v6+ https://nodejs.org
 * MongoDB v3+ https://www.mongodb.com
 * Docker v1.13.0-rc5+ https://www.docker.com
+* Bower v1.8.0+ https://bower.io
 
 ## Install
 

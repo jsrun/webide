@@ -72,5 +72,8 @@
 	"Authorization": "Authorization",
 	"Client ID": "Client ID",
 	"Client Secret": "Client Secret",
-	"Account": "Account"
+	"Account": "Account",
+	"Packages": "Packages",
+	"atom-clock": "atom-clock",
+	"Toggle clock in status bar": "Toggle clock in status bar"
 }

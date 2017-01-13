@@ -14,6 +14,7 @@
     "bugs": "https://github.com/jsrun/webide/issues",
     "engines": {"node": ">=6.9.4"},
     "dependenciesCore": {
+        "wi.core.atom": "master",
         "wi.core.commands": "master",
         "wi.core.engine": "master",
         "wi.core.menu": "master",
@@ -72,7 +73,8 @@
         "nodemon": "^1.11.0",
         "chokidar": "^1.6.1",
         "gitclone": "^2.0.0",
-        "mkdirp": "^0.5.1"
+        "mkdirp": "^0.5.1",
+        "colors": "^1.1.2"
     },
     "devDependencies": {
         "browser-sync": "^2.11.1",

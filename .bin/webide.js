@@ -10,8 +10,11 @@
  *  @license MIT
  */
 
-let optimist = require("optimist"),
+let fs = require("fs"),
+    optimist = require("optimist"),
     colors = require("colors"),
+    gitclone = require("gitclone"),
+    exec = require('child_process').exec,
     spawn = require('child_process').spawn;
 
 var args = optimist
@@ -35,10 +38,30 @@ if(args.help){
 if(args._.length > 0){
     switch(args._[0]){
         case "install":
-            let install  = spawn('node', [__dirname + '/install.js']);
-            install.stdout.on('data', (data) => { console.log(data.toString()); });
-            install.stderr.on('data', (data) => { console.log(data.toString()); });
-            install.on('close', (code) => { console.log("Installation complete"); });
+            if(args._[1]){
+                console.log("git clone " + args._[1]);
+                let dirname =  __dirname + "/../.plugins/" + args._[1].split("/")[1];
+            
+                gitclone(args._[1], {dest: dirname}, (err) => {
+                    if (err) console.error(err.buffer.toString());                
+                    
+                    //Install NPM 
+                    fs.stat(dirname + "/package.json", (err, stats) => {        
+                        if(stats){
+                            console.log("Installing dependencies...");
+                            let npmInstall  = exec("npm install --progress=false", { cwd: dirname });
+                            npmInstall.stdout.on('data', (data) => { console.log(data.toString()); });
+                            npmInstall.stderr.on('data', (data) => { console.log(data.toString()); });
+                        }
+                    });
+                });
+            }
+            else{
+                let install  = spawn('node', [__dirname + '/install.js']);
+                install.stdout.on('data', (data) => { console.log(data.toString()); });
+                install.stderr.on('data', (data) => { console.log(data.toString()); });
+                install.on('close', (code) => { console.log("Installation complete"); });
+            }
         break;
         case "update":
             let update  = spawn('node', [__dirname + '/update.js']);

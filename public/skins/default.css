@@ -40,8 +40,8 @@ body{
     color: var(--wi-default-color);
 }
 
-.wi-window{
-    
+body *{
+    outline: none !important;
 }
 
 .wi-window-header{
@@ -261,4 +261,44 @@ input.wi-toggle-round:checked + label:after {
 
 .wi-select select:disabled ~ .wi-select-arrow {
     border-top-color: #ccc;
+}
+
+/* 
+ * Fancytree
+ * @see https://github.com/mar10/fancytree/wiki/TutorialTheming
+ */
+ul.fancytree-container {
+    font-family: tahoma, arial, helvetica;
+    font-size: 10pt;
+    background-color: var(--wi-default-bg2-color);
+    border: none;
+    overflow: hidden;
+}
+
+span.fancytree-title{
+    color: var(--wi-default-color);
+}
+
+.fancytree-plain span.fancytree-title {
+  border: 1px solid transparent;
+}
+.fancytree-plain.fancytree-container.fancytree-treefocus span.fancytree-focused span.fancytree-title {
+  background-color: var(--wi-default-bg2-color);
+}
+.fancytree-plain span.fancytree-active span.fancytree-title,
+.fancytree-plain span.fancytree-selected span.fancytree-title {
+  background-color: var(--wi-default-bg2-color);
+  border-color: #dedede;
+}
+.fancytree-plain span.fancytree-node span.fancytree-selected span.fancytree-title {
+  font-style: italic;
+}
+.fancytree-plain span.fancytree-node:hover span.fancytree-title {
+  background-color: var(--wi-default-bg2-color);
+  border-color: #70c0e7;
+}
+.fancytree-plain.fancytree-container.fancytree-treefocus span.fancytree-active span.fancytree-title,
+.fancytree-plain.fancytree-container.fancytree-treefocus span.fancytree-selected span.fancytree-title {
+  background-color: var(--wi-default-bg2-color);
+  border-color: #26a0da;
 }

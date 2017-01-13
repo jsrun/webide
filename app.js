@@ -89,32 +89,35 @@ else{  */
                     
                     let webide = new WebIDE();
                     webide.imports({app: app, app_settings: settings, dirname: dirname, argv: argv, i18n: i18n, passport: passport, mongodb: mongodb});
-                    webide.load(() => { webide.boostrap(); }); 
+                    webide.load(() => { 
+                        webide.boostrap();
+                        
+                        browserSync({
+                            open: true,
+                            proxy: "http://localhost:" + (settings.port+1),
+                            files: ["public/**/*.*", ".core/**/*.*", ".ide/**/*.*", ".plugins/**/*.*"],
+                            port: settings.port,
+                            injectChanges: true,
+                            reloadOnRestart: false,
+                            ghostMode: true
+                        });
+
+                        browserSync.watch(["public/**/*.css", ".core/**/*.css", ".ide/**/*.css", ".plugins/**/*.css"], function (event, file) {                
+                            if (event === "change")
+                                browserSync.reload("build.min.css");
+                        });
+
+                        app.listen(settings.port + 1, () => { console.log(`http://localhost:${settings.port+1}`); }); 
+                    }); 
                 });
-            
-                browserSync({
-                    open: true,
-                    proxy: "http://localhost:" + (settings.port+1),
-                    files: ["public/**/*.*", ".core/**/*.*", ".ide/**/*.*", ".plugins/**/*.*"],
-                    port: settings.port,
-                    injectChanges: true,
-                    reloadOnRestart: false,
-                    ghostMode: true
-                });
-                
-                browserSync.watch(["public/**/*.css", ".core/**/*.css", ".ide/**/*.css", ".plugins/**/*.css"], function (event, file) {                
-                    if (event === "change")
-                        browserSync.reload("build.min.css");
-                });
-                
-                app.listen(settings.port + 1, () => { console.log(`http://localhost:${settings.port+1}`); }); 
             }
             else{
                 let webide = new WebIDE();
                 webide.imports({app: app, app_settings: settings, dirname: dirname, argv: argv, i18n: i18n, passport: passport, mongodb: mongodb});
-                webide.load(() => { webide.boostrap(); }); 
-            
-                app.listen(settings.port, () => { console.log(`http://localhost:${settings.port}`); }); 
+                webide.load(() => { 
+                    webide.boostrap();
+                    app.listen(settings.port, () => { console.log(`http://localhost:${settings.port}`); }); 
+                }); 
             }
         }
     });

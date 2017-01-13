@@ -181,7 +181,8 @@ module.exports = function(){
             
             async.series([(n) => { return _this.loadCore(n) }, 
                           (n) => { return _this.loadIde(n) }, 
-                          (n) => { return _this.loadPlugins(n) }], cb); 
+                          (n) => { return _this.loadPlugins(n) },
+                          (n) => { return _this.atom.parsePackages(__dirname + "/../.plugins", _this, n); }], cb); 
                       
             return this;
         },
@@ -293,14 +294,15 @@ module.exports = function(){
 
             //Index                        
             this.app.get("/build.min.js", (req, res) => { 
-                let buildJS = "var webide = {};\r\n";
+                let buildJS = "";
 
                 for(let jsKey in assents.js)
                     if(fs.statSync(assents.js[jsKey]))
                         buildJS += fs.readFileSync(assents.js[jsKey]) + "\r\n\r\n";
 
                 let jsmin = require('jsmin').jsmin; 
-                res.header("Content-type", "text/javascript").send(jsmin(buildJS)); 
+                //res.header("Content-type", "text/javascript").send(jsmin(buildJS));
+                res.header("Content-type", "text/javascript").send(buildJS); 
             });
 
             this.app.get("/build.min.css", (req, res) => { 
@@ -311,7 +313,8 @@ module.exports = function(){
                         buildCSS += fs.readFileSync(assents.css[cssKey]) + "\r\n\r\n";
 
                 let cssmin = require('cssmin'); 
-                res.header("Content-type", "text/css").send(cssmin(buildCSS)); 
+                //res.header("Content-type", "text/css").send(cssmin(buildCSS)); 
+                res.header("Content-type", "text/css").send(buildCSS); 
             });
 
             this.app.get("/", (req, res) => { 
