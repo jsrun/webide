@@ -1,6 +1,6 @@
 {
     "name": "webide",
-    "version": "3.0.1",
+    "version": "3.0.2",
     "homepage": "http://jsrun.io/webide",
     "author": "André Ferreira <andrehrf@gmail.com>",
     "scripts": {"start": "node app.js"},
