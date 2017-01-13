@@ -81,7 +81,7 @@ function loadDependencies(namespace, dirname){
                     //console.log("Installing dependencies...");
 
                     for(var keyDependencies in webideJson.dependencies){
-                        gitclone(keyDependencies, {dest: dirname + "/" + keyDependencies}, (err) => {
+                        gitclone(keyDependencies, {dest: dirname + "/" + keyDependencies.split("/")[1]}, (err) => {
                             //if (err) return console.error(err.buffer.toString());
                         });
                     }

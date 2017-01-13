@@ -96,16 +96,21 @@ else{  */
                         browserSync({
                             open: true,
                             proxy: "http://localhost:" + (settings.port+1),
-                            files: ["public/**/*.*", ".core/**/*.*", ".ide/**/*.*", ".plugins/**/*.*"],
+                            files: ["public/**/*.*", ".themes/**/*.*", ".core/**/*.*", ".ide/**/*.*", ".plugins/**/*.*"],
                             port: settings.port,
                             injectChanges: true,
                             reloadOnRestart: false,
                             ghostMode: true
                         });
 
-                        browserSync.watch(["public/**/*.css", ".core/**/*.css", ".ide/**/*.css", ".plugins/**/*.css"], function (event, file) {                
+                        browserSync.watch(["public/**/*.css", ".themes/**/*.css", ".core/**/*.css", ".ide/**/*.css", ".plugins/**/*.css"], function (event, file) {                
                             if (event === "change")
                                 browserSync.reload("build.min.css");
+                        });
+                        
+                        browserSync.watch(["public/**/*.js", ".themes/**/*.js", ".core/**/*.js", ".ide/**/*.js", ".plugins/**/*.js"], function (event, file) {                
+                            if (event === "change")
+                                browserSync.reload("build.min.js");
                         });
 
                         app.listen(settings.port + 1, () => { console.log(`http://localhost:${settings.port+1}`); }); 
