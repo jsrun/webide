@@ -76,8 +76,8 @@ else{  */
                 }
             }));    
         },
-        map_args: ["settings", "dirname", "argv", "app", "i18n", "passport", "mongodb", "webide"],
-        map: [`${__dirname}/src`],
+        /*map_args: ["settings", "dirname", "argv", "app", "i18n", "passport", "mongodb", "webide"],
+        map: [`${__dirname}/src`],*/
         bootstrap_args: ["settings", "dirname", "argv", "app", "i18n", "passport", "mongodb", "WebIDE"],
         bootstrap: (settings, dirname, argv, app, i18n, passport, mongodb, WebIDE) => {    
             if(env == "dev"){

@@ -233,7 +233,7 @@ module.exports = function(){
             //Login
             let _this = this;
             
-            function isAuthenticated(req, res, next){
+            /*function isAuthenticated(req, res, next){
                 if(req.isAuthenticated())
                     next();
                 else
@@ -289,7 +289,7 @@ module.exports = function(){
                 successRedirect : '/', 
                 failureRedirect: '/loginfaild', 
                 failureFlash : this.i18n.__('Username or password is invalid.')
-            }));
+            }));*/
 
             //Index                        
             this.app.get("/build.min.js", (req, res) => { 
@@ -314,7 +314,7 @@ module.exports = function(){
                 res.header("Content-type", "text/css").send(cssmin(buildCSS)); 
             });
 
-            this.app.get("/", isAuthenticated, (req, res) => { 
+            this.app.get("/", (req, res) => { 
                 let fs = require("fs"), ejs = require("ejs"), params = []; 
                 
                 for(let modulesKey in this){    

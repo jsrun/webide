@@ -3,9 +3,16 @@
     "version": "3.0.1",
     "homepage": "http://jsrun.io/webide",
     "author": "André Ferreira <andrehrf@gmail.com>",
-    "scripts": {
-        "start": "pm2 ecosystem.json"
+    "scripts": {"start": "node app.js"},
+    "bin": {"webide": "./.bin/webide.js"},
+    "preferGlobal": true,
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/jsrun/webide.git"
     },
+    "bugs": "https://github.com/jsrun/webide/issues",
+    "engines": {"node": ">=6.9.4"},
     "dependenciesCore": {
         "wi.core.commands": "master",
         "wi.core.engine": "master",
@@ -25,6 +32,10 @@
         "wi.ide.forms": "master",
         "wi.ide.messages": "master",
         "wi.ide.settings": "master"
+    },
+    "dependenciesPlugins": {
+        "wi.plugins.docker": "master",
+        "wi.plugins.spotify": "master"
     },
     "dependencies": {
         "organized": "^0.5.2",

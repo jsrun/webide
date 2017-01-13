@@ -47,11 +47,15 @@ nbproject
 /nbproject/private/
 
 #WebIDE
-/.components
+/.components/*
+!/.components/*.js
 /.core/*
 !/.core/*.js
-/.ide
-/.workspaces
-/.plugins
+/.ide/*
+!/.ide/*.js
+/.workspaces/*
+!/.workspaces/*.js
+/.plugins/*
+!/.plugins/*.js
 /.backup
 /public/ace/

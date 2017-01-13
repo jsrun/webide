@@ -1,12 +1,8 @@
 {
     "dev": {
-        "port": 80,
+        "port": 3525,
         "portSSL": 443,
         "mongodb": "mongodb://localhost:27017/webide",
-        "oauth": {
-            "github": {"clientID": "5e7e3c321e054ef775d1", "clientSecret": "adfb177f870a743efea995ddb4d3f3c66e362b8f"},
-            "spotify": {"clientID": "01f7ef7196ea4b76853c0116a529b915", "clientSecret": "5034d99859e24e7283cd873b9d48bee3"}
-        },
         "session": {"secret": "webide"},
         "docker": {"host": "127.0.0.1", "port": 2375}
     },
@@ -14,10 +10,6 @@
         "port": 3000,
         "portSSL": 443,
         "mongodb": "mongodb://localhost:27017/webide",
-        "oauth": {
-            "github": {"clientID": "5e7e3c321e054ef775d1", "clientSecret": "adfb177f870a743efea995ddb4d3f3c66e362b8f"},
-            "spotify": {"clientID": "01f7ef7196ea4b76853c0116a529b915", "clientSecret": "5034d99859e24e7283cd873b9d48bee3"}
-        },
         "session": {"secret": "webideprod"},
         "docker": {"host": "127.0.0.1", "port": 2375}
     }

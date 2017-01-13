@@ -14,7 +14,7 @@ Fully web-based multi-language development application
 
 ## Dependencies
 
-* Nodejs v4+ https://nodejs.org
+* Nodejs v6+ https://nodejs.org
 * MongoDB v3+ https://www.mongodb.com
 * Docker v1.13.0-rc5+ https://www.docker.com
 
@@ -23,10 +23,12 @@ Fully web-based multi-language development application
 Mode development
 ```bash
 $ git clone https://github.com/jsrun/webide
-$ npm install --silent --progress=false
+$ cd webide
+$ npm install --progress=false
+$ npm install -g bower
 $ bower install
-$ node install.js
-$ node app.js
+$ webide install
+$ webide start --port=3525
 ```
 
 Docker

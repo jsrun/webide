@@ -16,8 +16,7 @@ COPY . $HOME
 RUN chown -R app:app $HOME/*
 USER app
 RUN npm install -g bower
-RUN npm install -g pm2
 RUN bower install
-RUN node install.js
+RUN webide isntall
 
 CMD ["npm", "start"]
