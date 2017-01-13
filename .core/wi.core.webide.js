@@ -211,26 +211,6 @@ module.exports = function(){
          * @param object app
          */
         boostrap: function(){
-            let assents = {css: [], js: []};
-            
-            //Modules loading
-            for(let modulesKey in this){    
-                if(typeof this[modulesKey].bootstrap == "function")
-                    this[modulesKey].bootstrap(this);
-
-                if(typeof this[modulesKey].assets == "object"){
-                    if(typeof this[modulesKey].assets.css == "object")
-                        assents.css = _.concat(assents.css, this[modulesKey].assets.css)
-
-                    if(typeof this[modulesKey].assets.js == "object")
-                        assents.js = _.concat(assents.js, this[modulesKey].assets.js)
-                }
-            }
-            
-            //IDE
-            assents.js = _.concat(assents.js, this.assents.js);
-            assents.css = _.concat(assents.css, this.assents.css);
-
             //Login
             let _this = this;
             
@@ -294,6 +274,18 @@ module.exports = function(){
 
             //Index                        
             this.app.get("/build.min.js", (req, res) => { 
+                let assents = {js: []};
+            
+                //Modules loading
+                for(let modulesKey in _this){    
+                    if(typeof _this[modulesKey].assets == "object"){
+                        if(typeof _this[modulesKey].assets.js == "object")
+                            assents.js = _.concat(assents.js, _this[modulesKey].assets.js)
+                    }
+                }
+
+                assents.js = _.concat(assents.js, _this.assents.js);
+            
                 let buildJS = "";
 
                 for(let jsKey in assents.js)
@@ -306,6 +298,19 @@ module.exports = function(){
             });
 
             this.app.get("/build.min.css", (req, res) => { 
+                let assents = {css: []};
+            
+                //Modules loading
+                for(let modulesKey in _this){    
+                    if(typeof _this[modulesKey].assets == "object"){
+                        if(typeof _this[modulesKey].assets.css == "object")
+                            assents.css = _.concat(assents.css, _this[modulesKey].assets.css)
+                    }
+                }
+
+                //IDE
+                assents.css = _.concat(assents.css, _this.assents.css);
+                
                 let buildCSS = "";
 
                 for(let cssKey in assents.css)
@@ -317,14 +322,19 @@ module.exports = function(){
                 res.header("Content-type", "text/css").send(buildCSS); 
             });
 
-            this.app.get("/", (req, res) => { 
+            this.app.get("/", (req, res) => {   
                 let fs = require("fs"), ejs = require("ejs"), params = []; 
                 
-                for(let modulesKey in this){    
-                    if(typeof this[modulesKey].getTemplate == "function")
-                        params.push(this[modulesKey].getTemplate(this));
+                for(let modulesKey in _this){    
+                    if(typeof _this[modulesKey].bootstrap == "function")
+                        _this[modulesKey].bootstrap(_this);
                 }
                 
+                for(let modulesKey in _this){    
+                    if(typeof _this[modulesKey].getTemplate == "function")
+                        params.push(_this[modulesKey].getTemplate(_this));
+                }
+
                 for(let ideKeys in this.ide){
                     try{
                         if(fs.statSync(__dirname + "/../.ide/wi.ide." + ideKeys + "/wi.ide." + ideKeys + ".tpl.ejs"))
@@ -332,7 +342,7 @@ module.exports = function(){
                     }
                     catch(e){}
                 }
-                
+
                 for(let pluginsKeys in this.plugins){
                     try{
                         if(fs.statSync(__dirname + "/../.plugins/wi.plugins." + pluginsKeys + "/wi.plugins." + pluginsKeys + ".tpl.ejs"))
@@ -340,11 +350,12 @@ module.exports = function(){
                     }
                     catch(e){}
                 }
-                
-                var template = ejs.render(fs.readFileSync(__dirname + "/../public/index.ejs").toString(), {modules: params, __: _this.i18n.__});
-                template = ejs.render(template, {user: req.user, __: _this.i18n.__});
-
-                res.send(template); 
+                                
+                _this.settings.getUser(_this, ((res.user) ? req.user._id : 0), "theme", "default", (theme) => {
+                    var template = ejs.render(fs.readFileSync(__dirname + "/../public/index.ejs").toString(), {modules: params, theme: theme, __: _this.i18n.__});
+                    template = ejs.render(template, {user: req.user, __: _this.i18n.__});
+                    res.send(template); 
+                });  
             });
         }
     };

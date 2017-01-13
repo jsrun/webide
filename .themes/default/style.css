@@ -1,14 +1,14 @@
 /**
- * Thema based on Cloud 9
+ * Theme default
  */
 
 :root {
     /**
      * Default values
      */
-    --wi-default-bg-color: #252525;
-    --wi-default-bg2-color: #363636;
-    --wi-default-bg3-color: #313131;
+    --wi-default-bg-color: #21252b;
+    --wi-default-bg2-color: #2b2e36;
+    --wi-default-bg3-color: #2c323c;
     --wi-default-bg4-color: #4A4A4A;
     --wi-default-border: 1px solid #000;
     --wi-default-box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.06) inset;
@@ -17,21 +17,7 @@
     --wi-default-color2: #999999;
     --wi-default-font-family: Tahoma, Arial;
     --wi-default-border-radius: 3px;
-    
-    /**
-     * Navbar
-     */
-    --wi-navbar-bg-color: #252525;
-    --wi-navbar-border: 1px solid #000;
-    --wi-navbar-box-shadow: 0 1px 0 0 #4f4f4f inset;
-    --wi-navbar-color: #dbdbdb;
-    --wi-navbar-item-bg-color: #3f3f3f;
-    --wi-navbar-item-color: #dbdbdb;
-    --wi-navbar-item-bg-hover-color: #333333;
-    --wi-navbar-item-hover-color: #ffffff;
-    --wi-navbar-item-bg-active-color: #494949;
-    --wi-navbar-item-active-color: #ffffff;
-    --wi-navbar-item-active-text-shadow: 0px 1px 0px #2c2c2c;
+    --wi-default-text-shadow: 0px 1px 0px #2c2c2c;
 }
 
 body{

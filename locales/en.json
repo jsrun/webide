@@ -75,5 +75,7 @@
 	"Account": "Account",
 	"Packages": "Packages",
 	"atom-clock": "atom-clock",
-	"Toggle clock in status bar": "Toggle clock in status bar"
+	"Toggle clock in status bar": "Toggle clock in status bar",
+	"WebIDE": "WebIDE",
+	"WebIDE Theme": "WebIDE Theme"
 }
