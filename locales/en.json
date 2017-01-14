@@ -77,5 +77,10 @@
 	"atom-clock": "atom-clock",
 	"Toggle clock in status bar": "Toggle clock in status bar",
 	"WebIDE": "WebIDE",
-	"WebIDE Theme": "WebIDE Theme"
+	"WebIDE Theme": "WebIDE Theme",
+	"Git Diff": "Git Diff",
+	"Move to Next Diff": "Move to Next Diff",
+	"Move to Previous Diff": "Move to Previous Diff",
+	"Toggle Diff List": "Toggle Diff List",
+	"Docker Hub": "Docker Hub"
 }

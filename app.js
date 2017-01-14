@@ -100,7 +100,7 @@ else{  */
                             port: settings.port,
                             injectChanges: true,
                             reloadOnRestart: false,
-                            ghostMode: true
+                            ghostMode: false
                         });
 
                         browserSync.watch(["public/**/*.css", ".themes/**/*.css", ".core/**/*.css", ".ide/**/*.css", ".plugins/**/*.css"], function (event, file) {                
