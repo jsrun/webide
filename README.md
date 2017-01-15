@@ -4,7 +4,8 @@
    \ \  /\  / /__| |__  | | | |  | | |__   
     \ \/  \/ / _ \ '_ \ | | | |  | |  __|  
      \  /\  /  __/ |_) || |_| |__| | |____ 
-      \/  \/ \___|_.__/_____|_____/|______|                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+      \/  \/ \___|_.__/_____|_____/|______|   
+                                                                                                                                                                                                                                                                                                                                                                                                                                               
 ```                                                                                                                                                 
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/jsrun/webide/master/LICENSE)
@@ -17,6 +18,7 @@ Fully web-based multi-language development application
 * Nodejs v6+ https://nodejs.org
 * MongoDB v3+ https://www.mongodb.com
 * Docker v1.13.0-rc5+ https://www.docker.com
+* Git v2.10.0+ https://git-scm.com/
 * Bower v1.8.0+ https://bower.io
 
 ## Install

@@ -15,6 +15,8 @@ USER root
 COPY . $HOME
 RUN chown -R app:app $HOME/*
 USER app
+RUN apt-get install libcurl4-gnutls-dev libexpat1-dev gettext libz-dev libssl-dev
+RUN apt-get install git
 RUN npm install -g bower
 RUN bower install
 RUN webide isntall
