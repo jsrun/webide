@@ -40,6 +40,7 @@ node_modules
 dump
 
 #Bower
+/static/bower_components/
 /public/bower_components/
 
 #Netbeans

@@ -21,7 +21,8 @@ var args = optimist
     .usage("\nUsage:\n  " + colors.green("webide") + "  <command> [<args>] [<options>]\n"+
            "\nCommands:\n  " + colors.yellow("install") + "  Command to perform installation of WebIDE dependencies\n" + 
            "  " + colors.yellow("update") + "  Command to perform update of WebIDE dependencies\n" +
-           "  " + colors.yellow("start") + "  Command to start WebIDE")
+           "  " + colors.yellow("start") + "  Command to start WebIDE\n"+ 
+           "  " + colors.yellow("build") + " Command to process and test WebIDE") 
     .alias("h", "help") 
     .alias("h", "?")
     .options("port", {
@@ -73,6 +74,12 @@ if(args._.length > 0){
             let start  = spawn('node', [__dirname + '/../app.js']);
             start.stdout.on('data', (data) => { console.log(data.toString()); });
             start.stderr.on('data', (data) => { console.log(data.toString()); });
+        break;
+        case "build":
+            let dirname =  __dirname + "/../";
+            let build  = exec('node app.js --build', { cwd: dirname });
+            build.stdout.on('data', (data) => { console.log(data.toString()); });
+            build.stderr.on('data', (data) => { console.log(data.toString()); });
         break;
         default:
             optimist.showHelp();

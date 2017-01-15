@@ -38,6 +38,12 @@ module.exports = function(){
         assents: {css: [], js: []},
         
         /**
+         * List of plugins 
+         * @type array
+         */
+        pluginsPackages: [],
+        
+        /**
          * Function to call modules
          * 
          * @param function fn
@@ -126,6 +132,7 @@ module.exports = function(){
                         this["plugins"] = {};
                     
                     this["plugins"][namespace] = require("." + filesPlugins[filename]);
+                    this.pluginsPackages.push(require("." + path.dirname(filesPlugins[filename]) + "/package.json"));
                     
                     if(typeof this["plugins"][namespace] == "function"){
                         chokidar.watch(filesPlugins[filename]).on('all', (event, path) => {
@@ -179,10 +186,18 @@ module.exports = function(){
         load: function(cb){  
             let _this = this;
             
-            async.series([(n) => { return _this.loadCore(n) }, 
-                          (n) => { return _this.loadIde(n) }, 
-                          (n) => { return _this.loadPlugins(n) },
-                          (n) => { return _this.atom.parsePackages(__dirname + "/../.plugins", _this, n); }], cb); 
+            async.series([  (n) => { return _this.loadCore(n) }, 
+                            (n) => { return _this.loadIde(n) }, 
+                            (n) => { return _this.loadPlugins(n) },
+                            (n) => {
+                                if(_this.atom){
+                                    _this.atom.parsePackages(__dirname + "/../.plugins", _this, n);
+                                    _this.atom.static(_this.app);
+                                }
+                                else{
+                                    n();
+                                }
+                            }], cb); 
                       
             return this;
         },
@@ -204,7 +219,7 @@ module.exports = function(){
         insertCss: function(filaname){
             this.assents.css.push(filaname);
         },
-
+        
         /**
          * System startup function 
          * 
@@ -213,66 +228,84 @@ module.exports = function(){
         boostrap: function(){
             //Login
             let _this = this;
+                    
+            let assents = {js: [], css: []};
             
-            /*function isAuthenticated(req, res, next){
-                if(req.isAuthenticated())
-                    next();
-                else
-                    res.redirect("/login");  
+            //Modules loading
+            for(let modulesKey in _this){    
+                if(typeof _this[modulesKey].assets == "object"){
+                    if(typeof _this[modulesKey].assets.js == "object")
+                        assents.js = _.concat(assents.js, _this[modulesKey].assets.js)
+                    if(typeof _this[modulesKey].assets.css == "object")
+                            assents.css = _.concat(assents.css, _this[modulesKey].assets.css)
+                }
             }
 
-            this.passport.serializeUser(function(user, done) {
-                done(null, user._id);
-            });
+            assents.js = _.concat(assents.js, _this.assents.js);
+            assents.css = _.concat(assents.css, _this.assents.css);
 
-            this.passport.deserializeUser(function(id, done) {    
-                _this.mongodb.collection("users").findById(id, function(err, user){
-                    if(!err) done(null, user);             
-                    else done(err, null)  
-                })
-            });
+            let buildJS = "";
+            for(let jsKey in assents.js)
+                if(fs.statSync(assents.js[jsKey]))
+                    buildJS += fs.readFileSync(assents.js[jsKey]) + "\r\n\r\n";
 
-            this.passport.use('local-login', new LocalStrategy((user, password, done) => {
-                _this.mongodb.collection("users").findOne({$or: [{user: user, pass: md5(password)}, {email: user, pass: md5(password)}]}, {user: 1, profile: 1, email: 1}, function(err, user){
-                    if (err) return done(err); 
-                    if (!user) return done(null, false);
-                    else return done(err, user);
-                });
-            }));
-
-            this.app.get("/login", (req, res) => { 
-                if(req.isAuthenticated())
-                    res.redirect("/")
-                else
-                    res.render("login", {message: req.flash('error')}); 
-            });
-
-            this.app.post('/login', this.passport.authenticate('local-login', {
-                successRedirect : '/', 
-                failureRedirect : '/login',
-                failureFlash : this.i18n.__('Username or password is invalid.'),
-            }));
-
-            this.app.get("/logout", (req, res) => { 
-                req.logout();
-                res.redirect("/login");
-            });
+            let jsmin = require('jsmin').jsmin; 
+            fs.writeFileSync(__dirname + "/../static/build.min.js", buildJS);
             
-            //OAuth Github
-            this.passport.use(new GitHubStrategy({clientID: this.app_settings.oauth.github.clientID, clientSecret: this.app_settings.oauth.github.clientSecret}, (accessToken, refreshToken, profile, cb) => {      
-                _this.mongodb.collection("users").findAndModify({_id: profile.id}, [], {$set: profile}, {upsert: true}, (err, user) => {
-                    cb(err, user.value);
-                });
-            }));
+            let buildCSS = "";
+            for(let cssKey in assents.css)
+                if(fs.statSync(assents.css[cssKey]))
+                    buildCSS += fs.readFileSync(assents.css[cssKey]) + "\r\n\r\n";
 
-            this.app.get('/auth/github', this.passport.authenticate('github')); 
-            this.app.get('/auth/github/callback', this.passport.authenticate('github', {
-                successRedirect : '/', 
-                failureRedirect: '/loginfaild', 
-                failureFlash : this.i18n.__('Username or password is invalid.')
-            }));*/
+            let cssmin = require('cssmin'); 
+            fs.writeFileSync(__dirname + "/../static/build.min.css", buildCSS);
 
-            //Index                        
+            this.app.get("/", (req, res) => {   
+                let fs = require("fs"), ejs = require("ejs"), params = []; 
+                
+                for(let modulesKey in _this){    
+                    if(typeof _this[modulesKey].bootstrap == "function")
+                        _this[modulesKey].bootstrap(_this, req);
+                }
+                
+                for(let modulesKey in _this){    
+                    if(typeof _this[modulesKey].getTemplate == "function")
+                        params.push(_this[modulesKey].getTemplate(_this, req));
+                }
+
+                for(let ideKeys in this.ide){
+                    try{
+                        if(fs.statSync(__dirname + "/../.ide/wi.ide." + ideKeys + "/wi.ide." + ideKeys + ".tpl.ejs"))
+                            params.push(fs.readFileSync(__dirname + "/../.ide/wi.ide." + ideKeys + "/wi.ide." + ideKeys + ".tpl.ejs"));
+                    }
+                    catch(e){}
+                }
+
+                for(let pluginsKeys in this.plugins){
+                    try{
+                        if(fs.statSync(__dirname + "/../.plugins/wi.plugins." + pluginsKeys + "/wi.plugins." + pluginsKeys + ".tpl.ejs"))
+                            params.push(fs.readFileSync(__dirname + "/../.plugins/wi.plugins." + pluginsKeys + "/wi.plugins." + pluginsKeys + ".tpl.ejs"));
+                    }
+                    catch(e){}
+                }
+                                
+                _this.settings.getUser(_this, ((res.user) ? req.user._id : 0), "theme", "default", (theme, settings) => {
+                    var template = ejs.render(fs.readFileSync(__dirname + "/../public/index.ejs").toString(), {modules: params, theme: theme, __: _this.i18n.__});
+                    template = ejs.render(template, {user: req.user, userSettings: JSON.stringify(settings), __: _this.i18n.__});
+                    res.send(template); 
+                });  
+            });
+        },
+        
+        /**
+         * System startup function 
+         * 
+         * @param object app
+         */
+        boostrapDev: function(){
+            //Login
+            let _this = this;
+                    
             this.app.get("/build.min.js", (req, res) => { 
                 let assents = {js: []};
             
@@ -351,9 +384,9 @@ module.exports = function(){
                     catch(e){}
                 }
                                 
-                _this.settings.getUser(_this, ((res.user) ? req.user._id : 0), "theme", "default", (theme) => {
-                    var template = ejs.render(fs.readFileSync(__dirname + "/../public/index.ejs").toString(), {modules: params, theme: theme, __: _this.i18n.__});
-                    template = ejs.render(template, {user: req.user, __: _this.i18n.__});
+                _this.settings.getUser(_this, ((res.user) ? req.user._id : 0), "theme", "default", (theme, settings) => {
+                    var template = ejs.render(fs.readFileSync(__dirname + "/../static/index.ejs").toString(), {modules: params, theme: theme, __: _this.i18n.__});
+                    template = ejs.render(template, {user: req.user, userSettings: JSON.stringify(settings), __: _this.i18n.__});
                     res.send(template); 
                 });  
             });

@@ -1,6 +1,6 @@
 {
     "name": "webide",
-    "version": "3.0.2",
+    "version": "0.1.4",
     "homepage": "http://jsrun.io/webide",
     "author": "André Ferreira <andrehrf@gmail.com>",
     "scripts": {"start": "node app.js"},
@@ -24,7 +24,8 @@
         "wi.core.tabs": "master",
         "wi.core.terminal": "master",
         "wi.core.treeview": "master",
-        "wi.core.windows": "master"
+        "wi.core.windows": "master",
+        "wi.core.statusbar": "master"
     },
     "dependenciesIDE": {
         "wi.ide.ace": "master",

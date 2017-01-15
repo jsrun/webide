@@ -61,7 +61,7 @@ mkdirp(__dirname + "/../.plugins", function (err) {
 
 //Install Ace Editor
 console.log("git clone ajaxorg/ace-builds");
-gitclone("ajaxorg/ace-builds", {dest: __dirname + "/../public/ace"}, (err) => {
+gitclone("ajaxorg/ace-builds", {dest: __dirname + "/../static/ace"}, (err) => {
     //if (err) return console.error(err.buffer.toString());
 });
 
