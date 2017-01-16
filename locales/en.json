@@ -87,5 +87,17 @@
 	"Time format": "Time format",
 	"Locale": "Locale",
 	"Clock interval": "Clock interval",
-	"Icon clock": "Icon clock"
+	"Icon clock": "Icon clock",
+	"ColorPicker": "ColorPicker",
+	"Serve a random color on open": "Serve a random color on open",
+	"Automatically Replace Color": "Automatically Replace Color",
+	"Abbreviate Color Values": "Abbreviate Color Values",
+	"Uppercase Color Values": "Uppercase Color Values",
+	"Preferred Color Format": "Preferred Color Format",
+	"Trigger key": "Trigger key",
+	"Minimap": "Minimap",
+	"Toggle": "Toggle",
+	"minimap": "minimap",
+	"Independent Minimap Scroll On Mouse Wheel Events": "Independent Minimap Scroll On Mouse Wheel Events",
+	"Your workspace is not running, would you like to start it?": "Your workspace is not running, would you like to start it?"
 }

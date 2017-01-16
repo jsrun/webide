@@ -1,6 +1,6 @@
 {
     "name": "webide",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "homepage": "http://jsrun.io/webide",
     "author": "André Ferreira <andrehrf@gmail.com>",
     "scripts": {"start": "node app.js"},
@@ -75,7 +75,8 @@
         "chokidar": "^1.6.1",
         "gitclone": "^2.0.0",
         "mkdirp": "^0.5.1",
-        "colors": "^1.1.2"
+        "colors": "^1.1.2",
+        "socket.io": "^1.7.2"
     },
     "devDependencies": {
         "browser-sync": "^2.11.1",

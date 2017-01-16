@@ -12,9 +12,13 @@
         <link rel="stylesheet" href="./<%= theme %>/style.css" id="themestyle" /> 
     </head>
     <body>
+        <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+        <script type="text/javascript" src="/ace/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" src="/ace/src-noconflict/ext-beautify.js"></script>
+        <script type="text/javascript" src="/ace/src-noconflict/ext-language_tools.js"></script>
         <script type="text/javascript"> var webide = {}; </script>
+        
         <% for(var i = 0; i < modules.length; i++) {%><%- modules[i] %><% } %>
-        <script src="/ace/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
         <script type="text/javascript" src="/build.min.js"></script>
     </body>
 </html>

@@ -34,7 +34,8 @@ else{  */
             i18n: "i18n",
             MongoDBServer: "mongoskin",
             passport: "passport",
-            WebIDE: `${__dirname}/.core/wi.core.webide.js`
+            WebIDE: `${__dirname}/.core/wi.core.webide.js`,
+            SocketIO: "socket.io"
         },
         virtual: { 
             dirname: `"${__dirname}"`,  
@@ -77,10 +78,11 @@ else{  */
                 }
             }));    
         },
-        /*map_args: ["settings", "dirname", "argv", "app", "i18n", "passport", "mongodb", "webide"],
-        map: [`${__dirname}/src`],*/
-        bootstrap_args: ["settings", "dirname", "argv", "app", "i18n", "passport", "mongodb", "WebIDE"],
-        bootstrap: (settings, dirname, argv, app, i18n, passport, mongodb, WebIDE) => {    
+        bootstrap_args: ["settings", "dirname", "argv", "app", "i18n", "passport", "mongodb", "SocketIO", "WebIDE"],
+        bootstrap: (settings, dirname, argv, app, i18n, passport, mongodb, SocketIO, WebIDE) => {    
+            var server = require('http').createServer(app);
+            var io = SocketIO(server);
+                    
             if(env == "dev" || argv.dev == "true"){
                 let browserSync = require("browser-sync"),
                     chokidar = require("chokidar");
@@ -89,7 +91,7 @@ else{  */
                     if(event == "change") console.log("restart application");
                     
                     let webide = new WebIDE();
-                    webide.imports({app: app, app_settings: settings, dirname: dirname, argv: argv, i18n: i18n, passport: passport, mongodb: mongodb});
+                    webide.imports({app: app, app_settings: settings, dirname: dirname, argv: argv, i18n: i18n, passport: passport, mongodb: mongodb, io: io});
                     webide.load(() => { 
                         if(!argv.build){
                             webide.boostrapDev();
@@ -114,7 +116,7 @@ else{  */
                                     browserSync.reload("build.min.js");
                             });
 
-                            app.listen(settings.port + 1, () => { console.log(`http://localhost:${settings.port+1}`); });
+                            server.listen(settings.port + 1, () => { console.log(`http://localhost:${settings.port+1}`); });
                         }
                         else{
                             webide.boostrap();
@@ -125,10 +127,10 @@ else{  */
             }
             else{
                 let webide = new WebIDE();
-                webide.imports({app: app, app_settings: settings, dirname: dirname, argv: argv, i18n: i18n, passport: passport, mongodb: mongodb});
+                webide.imports({app: app, app_settings: settings, dirname: dirname, argv: argv, i18n: i18n, passport: passport, mongodb: mongodb, io: io});
                 webide.load(() => { 
                     webide.boostrap();
-                    app.listen(settings.port, () => { console.log(`http://localhost:${settings.port}`); }); 
+                    server.listen(settings.port, () => { console.log(`http://localhost:${settings.port}`); }); 
                 }); 
             }
         }
