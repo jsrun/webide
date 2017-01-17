@@ -25,6 +25,7 @@
         "wi.core.terminal": "master",
         "wi.core.treeview": "master",
         "wi.core.windows": "master",
+        "wi.core.workspace": "master",
         "wi.core.statusbar": "master"
     },
     "dependenciesIDE": {
@@ -32,8 +33,7 @@
         "wi.ide.file": "master",
         "wi.ide.fonts": "master",
         "wi.ide.forms": "master",
-        "wi.ide.messages": "master",
-        "wi.ide.settings": "master"
+        "wi.ide.messages": "master"
     },
     "dependenciesPlugins": {
         "wi.plugins.docker": "master",

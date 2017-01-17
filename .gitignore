@@ -60,3 +60,4 @@ nbproject
 !/.plugins/*.js
 /.backup
 /public/ace/
+!/*.md
