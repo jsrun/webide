@@ -14,19 +14,20 @@
     "bugs": "https://github.com/jsrun/webide/issues",
     "engines": {"node": ">=6.9.4"},
     "dependenciesCore": {
+        "wi.core._": "master",
         "wi.core.atom": "master",
         "wi.core.commands": "master",
-        "wi.core.engine": "master",
         "wi.core.menu": "master",
         "wi.core.navbar": "master",
         "wi.core.panelsbar": "master",
+        "wi.core.run": "master",
         "wi.core.settings": "master",
+        "wi.core.statusbar": "master",
         "wi.core.tabs": "master",
         "wi.core.terminal": "master",
         "wi.core.treeview": "master",
         "wi.core.windows": "master",
-        "wi.core.workspace": "master",
-        "wi.core.statusbar": "master"
+        "wi.core.workspace": "master"
     },
     "dependenciesIDE": {
         "wi.ide.ace": "master",
@@ -36,8 +37,6 @@
         "wi.ide.messages": "master"
     },
     "dependenciesPlugins": {
-        "wi.plugins.docker": "master",
-        "wi.plugins.spotify": "master"
     },
     "dependencies": {
         "organized": "^0.5.2",
