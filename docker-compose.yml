@@ -4,8 +4,6 @@ services:
         image: mongo
         ports:
             - '27017:27017'
-        environment:
-            - "constraint:node==ip-10-0-57-22"
         volumes:
             - '/data/db'
     docker:

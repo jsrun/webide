@@ -16,10 +16,7 @@ COPY . $HOME
 RUN chown -R app:app $HOME/*
 
 RUN apt-get update -qq && apt-get install -qqy curl git ssh sshpass \
-    apt-transport-https \
-    ca-certificates \
-    lxc \
-    iptables
+    apt-transport-https ca-certificates lxc iptables
 
 RUN npm install -g bower
 RUN bower install --allow-root
