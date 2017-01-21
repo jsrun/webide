@@ -1,7 +1,7 @@
 version: '3'
 services:
     mongo:
-        image: mongo
+        image: mongo:latest
         ports:
             - '27017:27017'
         volumes:
@@ -9,20 +9,24 @@ services:
     docker:
         image: docker:dind
         privileged: true
+        restart: always
+        tty: true
         volumes:
             - '/var/lib/docker'
     webide:
-        image: node
+        image: node:latest
+        privileged: true
+        tty: true
         build:
             context: .
             dockerfile: Dockerfile
         environment:
             NODE_ENV: prod
         ports:
-            - "3000"
+            - "3000" 
         depends_on:
-            - docker
             - mongo
+            - docker
         volumes:
             - '.:/home/app'
             - '/home/app/node_modules'

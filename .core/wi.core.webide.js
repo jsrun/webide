@@ -290,7 +290,7 @@ module.exports = function(){
                 }
                                 
                 _this.settings.getUser(_this, ((res.user) ? req.user._id : 0), "theme", "default", (theme, settings) => {
-                    var template = ejs.render(fs.readFileSync(__dirname + "/../public/index.ejs").toString(), {modules: params, theme: theme, __: _this.i18n.__});
+                    var template = ejs.render(fs.readFileSync(__dirname + "/../static/index.ejs").toString(), {modules: params, theme: theme, __: _this.i18n.__});
                     template = ejs.render(template, {user: req.user, userSettings: JSON.stringify(settings), __: _this.i18n.__});
                     res.send(template); 
                 });  

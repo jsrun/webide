@@ -20,8 +20,6 @@ RUN apt-get update -qq && apt-get install -qqy curl git ssh sshpass \
 
 RUN npm install -g bower
 RUN bower install --allow-root
-
-USER app
 RUN node $HOME/.bin/webide.js install
 
 CMD ["npm", "start"]
