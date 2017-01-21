@@ -19,7 +19,6 @@ Fully web-based multi-language development application
 * MongoDB v3+ https://www.mongodb.com
 * Docker v1.13.0-rc5+ https://www.docker.com
 * Git v2.10.0+ https://git-scm.com/
-* Bower v1.8.0+ https://bower.io
 
 ## Install
 
@@ -31,14 +30,13 @@ $ npm install --progress=false
 $ npm install -g bower
 $ bower install
 $ webide install
-$ webide start --port=3525
+$ node app.js
 ```
 
 Docker
 ```bash
 $ git clone https://github.com/jsrun/webide
-$ docker build .
-$ docker-compose build
+$ docker-compose up -d --build
 ```
 
 ## License

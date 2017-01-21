@@ -8,7 +8,7 @@
     "prod": {
         "port": 3000,
         "portSSL": 443,
-        "mongodb": "mongodb://localhost:27017/webide",
+        "mongodb": "mongodb://mongo:27017/webide",
         "session": {"secret": "webideprod"}
     }
 }

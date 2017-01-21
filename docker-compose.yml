@@ -1,28 +1,34 @@
-version: '2'
+version: '3'
 services:
-    mongodata:  
-        image: mongo
-        volumes:
-            - /data/db
-        command: --break-mongo
     mongo:
         image: mongo
         ports:
-            - "27017:27017"
-        command: "--smallfiles --logpath=/dev/null"
-        volumes_from:
-            - mongodata
+            - '27017:27017'
+        environment:
+            - "constraint:node==ip-10-0-57-22"
+        volumes:
+            - '/data/db'
+    docker:
+        image: docker:dind
+        privileged: true
+        volumes:
+            - '/var/lib/docker'
     webide:
+        image: node
         build:
             context: .
             dockerfile: Dockerfile
-        command: node_modules/.bin/nodemon --exec npm start
         environment:
             NODE_ENV: prod
         ports:
-            - 3000:3000
-        links:
+            - "3000"
+        depends_on:
+            - docker
             - mongo
         volumes:
-            - .:/home/app
-            - /home/app/node_modules
+            - '.:/home/app'
+            - '/home/app/node_modules'
+                        
+networks:
+  default:
+    driver: bridge
