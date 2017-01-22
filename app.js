@@ -34,7 +34,7 @@ else{  */
             i18n: "i18n",
             MongoDBServer: "mongoskin",
             passport: "passport",
-            WebIDE: `${__dirname}/.core/wi.core.webide.js`,
+            WebIDE: `${__dirname}/webide.js`,
             SocketIO: "socket.io"
         },
         virtual: { 
@@ -87,7 +87,7 @@ else{  */
                 let browserSync = require("browser-sync"),
                     chokidar = require("chokidar");
                     
-                chokidar.watch(__dirname + "/.core/wi.core.webide.js").on('all', (event, path) => {
+                chokidar.watch(__dirname + "/webide.js").on('all', (event, path) => {
                     if(event == "change") console.log("restart application");
                     
                     let webide = new WebIDE();
