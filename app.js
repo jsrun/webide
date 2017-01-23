@@ -99,7 +99,7 @@ else{  */
                             browserSync({
                                 open: true,
                                 proxy: "http://localhost:" + (settings.port+1),
-                                files: ["public/**/*.*", ".themes/**/*.*", ".core/**/*.*", ".ide/**/*.*", ".plugins/**/*.*"],
+                                files: ["public/**/*.ejs", ".themes/**/*.ejs", ".core/**/*.ejs", ".ide/**/*.ejs", ".plugins/**/*.ejs"],
                                 port: settings.port,
                                 injectChanges: true,
                                 reloadOnRestart: false,

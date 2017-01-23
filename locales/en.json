@@ -167,5 +167,6 @@
 	"Configure services": "Configure services",
 	"Electron": "Electron",
 	"PhoneGap": "PhoneGap",
-	"Auto build": "Auto build"
+	"Auto build": "Auto build",
+	"Form Builder...": "Form Builder..."
 }

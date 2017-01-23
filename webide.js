@@ -23,12 +23,6 @@ let fs = require("fs"),
 module.exports = function(){
     return {    
         /**
-         * Namespace
-         * @type string
-         */
-        namespace: "core.webide",
-
-        /**
          * List module assets
          * @type object
          */
@@ -93,8 +87,10 @@ module.exports = function(){
             var _this = this;
             
             var watcher = chokidar.watch([__dirname + "/.ide/*/bootstrap.js", __dirname + "/.ide/*/wi.ide.*.module.js"]).on('all', (event, filename) => {  
-                let namespace = (/^.*?wi\.ide\..*?\.module\.js$/.test(filename)) ? filename.match(/^.*wi\.ide\.(.*?)\.module\.js$/)[1] : path.basename(path.dirname(filename)).replace(/wi.ide./img, "");
-                require(filename)(_this);
+                if(event == "add"){
+                    let namespace = (/^.*?wi\.ide\..*?\.module\.js$/.test(filename)) ? filename.match(/^.*wi\.ide\.(.*?)\.module\.js$/)[1] : path.basename(path.dirname(filename)).replace(/wi.ide./img, "");
+                    require(filename)(_this);
+                }
             });
             
             chokidar.watch([__dirname + "/.ide/*/events.js", __dirname + "/.ide/*/wi.ide.*.events.js"]).on('all', (event, filename) => {
@@ -118,8 +114,10 @@ module.exports = function(){
             var _this = this;
             
             var watcher = chokidar.watch([__dirname + "/.plugins/*/bootstrap.js", __dirname + "/.plugins/*/wi.plugins.*.module.js"]).on('all', (event, filename) => {  
-                let namespace = (/^.*?wi\.plugins\..*?\.module\.js$/.test(filename)) ? filename.match(/^.*wi\.plugins\.(.*?)\.module\.js$/)[1] : path.basename(path.dirname(filename)).replace(/wi.ide./img, "");
-                require(filename)(_this);
+                if(event == "add"){
+                    let namespace = (/^.*?wi\.plugins\..*?\.module\.js$/.test(filename)) ? filename.match(/^.*wi\.plugins\.(.*?)\.module\.js$/)[1] : path.basename(path.dirname(filename)).replace(/wi.ide./img, "");
+                    require(filename)(_this);
+                }
             });
             
             chokidar.watch([__dirname + "/.plugins/*/events.js", __dirname + "/.plugins/*/wi.plugins.*.events.js"]).on('all', (event, filename) => {
@@ -377,12 +375,26 @@ module.exports = function(){
                             params.push(fs.readFileSync(__dirname + "/.ide/wi.ide." + ideKeys + "/wi.ide." + ideKeys + ".tpl.ejs"));
                     }
                     catch(e){}
+                    
+                    //New format
+                    try{
+                        if(fs.statSync(__dirname + "/.ide/wi.ide." + ideKeys + "/template.ejs"))
+                            params.push(fs.readFileSync(__dirname + "/.ide/wi.ide." + ideKeys + "/template.ejs"));
+                    }
+                    catch(e){}
                 }
 
                 for(let pluginsKeys in this.plugins){
                     try{
                         if(fs.statSync(__dirname + "/.plugins/wi.plugins." + pluginsKeys + "/wi.plugins." + pluginsKeys + ".tpl.ejs"))
                             params.push(fs.readFileSync(__dirname + "/.plugins/wi.plugins." + pluginsKeys + "/wi.plugins." + pluginsKeys + ".tpl.ejs"));
+                    }
+                    catch(e){}
+                    
+                    //New format
+                    try{
+                        if(fs.statSync(__dirname + "/.plugins/wi.plugins." + pluginsKeys + "/template.ejs"))
+                            params.push(fs.readFileSync(__dirname + "/.plugins/wi.plugins." + pluginsKeys + "/template.ejs"));
                     }
                     catch(e){}
                 }

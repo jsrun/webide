@@ -187,3 +187,18 @@ span.fancytree-title{
 .tooltipster-sidetip.tooltipster-punk.tooltipster-top .tooltipster-arrow-border {
     border-top-color: #f71169;
 }
+
+/**
+ * Git status
+ */
+.git-new, .git-new span.fancytree-title{
+    color: #53ef53;
+}
+
+.git-modified, .git-modified span.fancytree-title{
+    color: #8484ff;
+}
+
+.git-ignored, .git-ignored span.fancytree-title{
+    color: #a5a5a5;
+}
