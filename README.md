@@ -19,17 +19,33 @@ Fully web-based multi-language development application
 * MongoDB v3+ https://www.mongodb.com
 * Docker v1.13.0-rc5+ https://www.docker.com
 * Git v2.10.0+ https://git-scm.com/
+* OpenSSL
+
+## Dependencies on Windows
+
+```bash
+$ npm install -g node-gyp
+$ npm --vcc-build-tools-parameters='[""/Full""]' install --global windows-build-tools
+$ set PYTHONPATH=/path/to/python2.7
+$ set PYTHON=%PYTHONPATH%/python.exe
+$ node-gyp --python /path/to/python2.7
+$ npm config set python /path/to/executable/python2.7
+$ npm config set msvs_version 2015
+```
+
+Configuration tutorial - https://www.robertkehoe.com/2015/03/fix-node-gyp-rebuild-error-on-windows/
 
 ## Install
 
 Mode development
 ```bash
+$ sudo apt install libssl-dev
 $ git clone https://github.com/jsrun/webide
 $ cd webide
 $ npm install --progress=false
 $ npm install -g bower
 $ bower install
-$ webide install
+$ /.bin/install.js
 $ node app.js
 ```
 

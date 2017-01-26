@@ -15,10 +15,10 @@
 let fs = require("fs"),
     path = require("path"),
     _ = require("lodash"),
-    glob = require("glob"),
     async = require("async"),
     SystemException = require("./.core/wi.core.exception.js"),
-    chokidar = require("chokidar");
+    chokidar = require("chokidar"),
+    glob = require('glob');
 
 module.exports = function(){
     return {    
@@ -58,19 +58,19 @@ module.exports = function(){
          * @param function next
          * @return void
          */
-        loadCore: function(next){
+        loadCore: function(next){                        
             var _this = this;
             
-            var watcher = chokidar.watch([__dirname + "/.core/*/bootstrap.js", __dirname + "/.core/*/wi.core.*.module.js"]).on('all', (event, filename) => {
-                let namespace = (/^.*?wi\.core\..*?\.module\.js$/.test(filename)) ? filename.match(/^.*wi\.core\.(.*?)\.module\.js$/)[1] : path.basename(path.dirname(filename)).replace(/wi.core./img, "");
+            var watcher = chokidar.watch(glob.sync(__dirname + "/.core/*/bootstrap.js")).on('all', (event, filename) => {                
+                let namespace = path.basename(path.dirname(filename)).replace(/wi.core./img, "");
                 _this[namespace] = require(filename);
             });
             
-            chokidar.watch([__dirname + "/.core/*/events.js", __dirname + "/.core/*/wi.core.*.events.js"]).on('all', (event, filename) => {
+            chokidar.watch(glob.sync(__dirname + "/.core/*/events.js")).on('all', (event, filename) => {
                 if(event == "add") _this.insertJs(filename);
             });
             
-            chokidar.watch([__dirname + "/.core/*/style.css", __dirname + "/.core/*/wi.core.*.style.css"]).on('all', (event, filename) => {
+            chokidar.watch(glob.sync(__dirname + "/.core/*/style.css")).on('all', (event, filename) => {
                 if(event == "add") _this.insertCss(filename);
             });
                     
@@ -83,21 +83,21 @@ module.exports = function(){
          * @param function next
          * @return void
          */
-        loadIde: function(next){    
+        loadIde: function(next){             
             var _this = this;
             
-            var watcher = chokidar.watch([__dirname + "/.ide/*/bootstrap.js", __dirname + "/.ide/*/wi.ide.*.module.js"]).on('all', (event, filename) => {  
+            var watcher = chokidar.watch(glob.sync(__dirname + "/.ide/*/bootstrap.js")).on('all', (event, filename) => {                  
                 if(event == "add"){
-                    let namespace = (/^.*?wi\.ide\..*?\.module\.js$/.test(filename)) ? filename.match(/^.*wi\.ide\.(.*?)\.module\.js$/)[1] : path.basename(path.dirname(filename)).replace(/wi.ide./img, "");
+                    let namespace = path.basename(path.dirname(filename)).replace(/wi.ide./img, "");
                     require(filename)(_this);
                 }
             });
             
-            chokidar.watch([__dirname + "/.ide/*/events.js", __dirname + "/.ide/*/wi.ide.*.events.js"]).on('all', (event, filename) => {
+            chokidar.watch(glob.sync(__dirname + "/.ide/*/events.js")).on('all', (event, filename) => {
                 if(event == "add") _this.insertJs(filename);
             });
             
-            chokidar.watch([__dirname + "/.ide/*/style.css", __dirname + "/.ide/*/wi.ide.*.style.css"]).on('all', (event, filename) => {
+            chokidar.watch(glob.sync(__dirname + "/.ide/*/style.css")).on('all', (event, filename) => {
                 if(event == "add") _this.insertCss(filename);
             });
                     
@@ -110,25 +110,30 @@ module.exports = function(){
          * @param function next
          * @return void
          */
-        loadPlugins: function(next){
+        loadPlugins: function(next){            
             var _this = this;
             
-            var watcher = chokidar.watch([__dirname + "/.plugins/*/bootstrap.js", __dirname + "/.plugins/*/wi.plugins.*.module.js"]).on('all', (event, filename) => {  
-                if(event == "add"){
-                    let namespace = (/^.*?wi\.plugins\..*?\.module\.js$/.test(filename)) ? filename.match(/^.*wi\.plugins\.(.*?)\.module\.js$/)[1] : path.basename(path.dirname(filename)).replace(/wi.ide./img, "");
-                    require(filename)(_this);
-                }
-            });
-            
-            chokidar.watch([__dirname + "/.plugins/*/events.js", __dirname + "/.plugins/*/wi.plugins.*.events.js"]).on('all', (event, filename) => {
-                if(event == "add") _this.insertJs(filename);
-            });
-            
-            chokidar.watch([__dirname + "/.plugins/*/style.css", __dirname + "/.plugins/*/wi.plugins.*.style.css"]).on('all', (event, filename) => {
-                if(event == "add") _this.insertCss(filename);
-            });
-                    
-            watcher.on('ready', next).on('change', next);
+            if(glob.sync(__dirname + "/.plugins/*").length > 0){
+                var watcher = chokidar.watch(glob.sync(__dirname + "/.plugins/*/bootstrap.js")).on('all', (event, filename) => {  
+                    if(event == "add"){
+                        let namespace = path.basename(path.dirname(filename)).replace(/wi.ide./img, "");
+                        require(filename)(_this);
+                    }
+                });
+
+                chokidar.watch(glob.sync(__dirname + "/.plugins/*/events.js")).on('all', (event, filename) => {
+                    if(event == "add") _this.insertJs(filename);
+                });
+
+                chokidar.watch(glob.sync(__dirname + "/.plugins/*/style.css")).on('all', (event, filename) => {
+                    if(event == "add") _this.insertCss(filename);
+                });
+
+                watcher.on('ready', next).on('change', next);
+            }
+            else{
+                next();
+            }
         },
         
         /**
@@ -160,13 +165,15 @@ module.exports = function(){
                           (n) => { return _this.loadIde(n) }, 
                           (n) => { return _this.loadPlugins(n) },
                           (n) => {
-                            if(_this.atom){
+                            console.log("Check plugins");
+                            /*if(_this.atom){
                                 _this.atom.parsePackages(__dirname + "/.plugins", _this, n);
                                 _this.atom.static(_this.app);
                             }
                             else{
                                 n();
-                            }
+                            }*/
+                            n();
                           }], cb); 
                       
             return this;
@@ -232,70 +239,6 @@ module.exports = function(){
             //Login
             let _this = this, assents = {js: [], css: []};
             
-            //Modules loading
-            /*for(let modulesKey in _this){    
-                if(typeof _this[modulesKey].assets == "object"){
-                    if(typeof _this[modulesKey].assets.js == "object")
-                        assents.js = _.concat(assents.js, _this[modulesKey].assets.js)
-                    if(typeof _this[modulesKey].assets.css == "object")
-                            assents.css = _.concat(assents.css, _this[modulesKey].assets.css)
-                }
-            }
-
-            assents.js = _.concat(assents.js, _this.assents.js);
-            assents.css = _.concat(assents.css, _this.assents.css);
-
-            let buildJS = "";
-            for(let jsKey in assents.js)
-                if(fs.statSync(assents.js[jsKey]))
-                    buildJS += fs.readFileSync(assents.js[jsKey]) + "\r\n\r\n";
-
-            let jsmin = require('jsmin').jsmin; 
-            fs.writeFileSync(__dirname + "/../static/build.min.js", buildJS);
-            
-            let buildCSS = "";
-            for(let cssKey in assents.css)
-                if(fs.statSync(assents.css[cssKey]))
-                    buildCSS += fs.readFileSync(assents.css[cssKey]) + "\r\n\r\n";
-
-            let cssmin = require('cssmin'); 
-            fs.writeFileSync(__dirname + "/../static/build.min.css", buildCSS);
-
-            this.app.get("/", (req, res) => {   
-                let fs = require("fs"), ejs = require("ejs"), params = []; 
-                
-                for(let modulesKey in _this){    
-                    if(typeof _this[modulesKey].bootstrap == "function")
-                        _this[modulesKey].bootstrap(_this, req);
-                }
-                
-                for(let modulesKey in _this){    
-                    if(typeof _this[modulesKey].getTemplate == "function")
-                        params.push(_this[modulesKey].getTemplate(_this, req));
-                }
-
-                for(let ideKeys in this.ide){
-                    try{
-                        if(fs.statSync(__dirname + "/../.ide/wi.ide." + ideKeys + "/wi.ide." + ideKeys + ".tpl.ejs"))
-                            params.push(fs.readFileSync(__dirname + "/../.ide/wi.ide." + ideKeys + "/wi.ide." + ideKeys + ".tpl.ejs"));
-                    }
-                    catch(e){}
-                }
-
-                for(let pluginsKeys in this.plugins){
-                    try{
-                        if(fs.statSync(__dirname + "/../.plugins/wi.plugins." + pluginsKeys + "/wi.plugins." + pluginsKeys + ".tpl.ejs"))
-                            params.push(fs.readFileSync(__dirname + "/../.plugins/wi.plugins." + pluginsKeys + "/wi.plugins." + pluginsKeys + ".tpl.ejs"));
-                    }
-                    catch(e){}
-                }
-                                
-                _this.settings.getUser(_this, ((res.user) ? req.user._id : 0), "theme", "default", (theme, settings) => {
-                    var template = ejs.render(fs.readFileSync(__dirname + "/../static/index.ejs").toString(), {modules: params, theme: theme, __: _this.i18n.__});
-                    template = ejs.render(template, {user: req.user, userSettings: JSON.stringify(settings), __: _this.i18n.__});
-                    res.send(template); 
-                });  
-            });*/
         },
         
         /**
@@ -370,33 +313,33 @@ module.exports = function(){
                         params.push(_this[modulesKey].getTemplate(_this));
                 
                 for(let ideKeys in this.ide){
-                    try{
+                    //try{
                         if(fs.statSync(__dirname + "/.ide/wi.ide." + ideKeys + "/wi.ide." + ideKeys + ".tpl.ejs"))
                             params.push(fs.readFileSync(__dirname + "/.ide/wi.ide." + ideKeys + "/wi.ide." + ideKeys + ".tpl.ejs"));
-                    }
-                    catch(e){}
+                    //}
+                    //catch(e){}
                     
                     //New format
-                    try{
+                    //try{
                         if(fs.statSync(__dirname + "/.ide/wi.ide." + ideKeys + "/template.ejs"))
                             params.push(fs.readFileSync(__dirname + "/.ide/wi.ide." + ideKeys + "/template.ejs"));
-                    }
-                    catch(e){}
+                    //}
+                    //catch(e){}
                 }
 
                 for(let pluginsKeys in this.plugins){
-                    try{
+                    //try{
                         if(fs.statSync(__dirname + "/.plugins/wi.plugins." + pluginsKeys + "/wi.plugins." + pluginsKeys + ".tpl.ejs"))
                             params.push(fs.readFileSync(__dirname + "/.plugins/wi.plugins." + pluginsKeys + "/wi.plugins." + pluginsKeys + ".tpl.ejs"));
-                    }
-                    catch(e){}
+                    //}
+                    //catch(e){}
                     
                     //New format
-                    try{
+                    //try{
                         if(fs.statSync(__dirname + "/.plugins/wi.plugins." + pluginsKeys + "/template.ejs"))
                             params.push(fs.readFileSync(__dirname + "/.plugins/wi.plugins." + pluginsKeys + "/template.ejs"));
-                    }
-                    catch(e){}
+                    //}
+                    //catch(e){}
                 }
                                 
                 _this.settings.getUser(_this, ((res.user) ? req.user._id : 0), "theme", "default", (theme, settings) => {

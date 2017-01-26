@@ -6,13 +6,6 @@ services:
             - '27017:27017'
         volumes:
             - '/data/db'
-    docker:
-        image: docker:dind
-        privileged: true
-        restart: always
-        tty: true
-        volumes:
-            - '/var/lib/docker'
     webide:
         image: node:latest
         privileged: true
@@ -26,11 +19,9 @@ services:
             - "3000" 
         depends_on:
             - mongo
-            - docker
         volumes:
             - '.:/home/app'
-            - '/home/app/node_modules'
-                        
+            - '/home/app/node_modules'           
 networks:
   default:
     driver: bridge

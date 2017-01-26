@@ -4,7 +4,6 @@
     "homepage": "http://jsrun.io/webide",
     "author": "André Ferreira <andrehrf@gmail.com>",
     "scripts": {"start": "node app.js"},
-    "bin": {"webide": "./.bin/webide.js"},
     "preferGlobal": true,
     "license": "MIT",
     "repository": {
@@ -77,7 +76,8 @@
         "colors": "^1.1.2",
         "socket.io": "^1.7.2",
         "nodegit": "0.16.0",
-        "promisify": "0.0.3"
+        "promisify": "0.0.3",
+        "glob-fs": "^0.1.6"
     },
     "devDependencies": {
         "browser-sync": "^2.11.1",

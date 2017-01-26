@@ -1,0 +1,37 @@
+/**
+ * Thema based on Cloud 9
+ */
+
+:root {
+    /**
+     * Default values
+     */
+    --wi-default-bg-color: #FAFAFA;
+    --wi-default-bg2-color: #FFFFFF;
+    --wi-default-bg3-color: #e8e8e8;
+    --wi-default-bg4-color: #e8e8e8;
+    --wi-default-border: 1px solid #CCC;
+    --wi-default-border-color: #CCC;
+    --wi-default-box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.06) inset;
+    --wi-default-box-shadow-outset: 0 1px 0 0 rgba(255, 255, 255, 0.06);
+    --wi-default-color: #CCCCC;
+    --wi-default-color2: #000;
+    --wi-default-font-family: Tahoma, Arial;
+    --wi-default-border-radius: 3px;
+    --wi-default-text-shadow: 0px 1px 0px #CCCCC;
+}
+
+/**
+ * Git status
+ */
+.git-new, .git-new span.fancytree-title{
+    color: #14aa14;
+}
+
+.git-modified, .git-modified span.fancytree-title{
+    color: #1a1ac9;
+}
+
+.git-ignored, .git-ignored span.fancytree-title{
+    color: #a5a5a5;
+}

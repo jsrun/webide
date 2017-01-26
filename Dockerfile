@@ -7,11 +7,9 @@ ENV HOME=/home/app
 COPY package.json $HOME
 RUN chown -R app:app $HOME/*
 
-USER app
+USER root
 WORKDIR $HOME
 RUN npm install --progress=false
-
-USER root
 COPY . $HOME
 RUN chown -R app:app $HOME/*
 
@@ -20,6 +18,6 @@ RUN apt-get update -qq && apt-get install -qqy curl git ssh sshpass \
 
 RUN npm install -g bower
 RUN bower install --allow-root
-RUN node $HOME/.bin/webide.js install
+RUN node $HOME/.bin/install.js
 
 CMD ["npm", "start"]
