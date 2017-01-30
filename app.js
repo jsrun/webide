@@ -91,8 +91,7 @@ app.config({
 
                         browserSync({
                             open: true,
-                            proxy: "http://localhost:" + (settings.port+1),
-                            files: ["public/**/*.ejs", ".themes/**/*.ejs", ".core/**/*.ejs", ".ide/**/*.ejs", ".plugins/**/*.ejs"],
+                            proxy: "http://localhost:" + (settings.port+1),                            
                             port: settings.port,
                             injectChanges: true,
                             reloadOnRestart: false,

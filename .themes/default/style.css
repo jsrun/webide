@@ -120,8 +120,17 @@ ul.fancytree-container {
     overflow: hidden;
 }
 
+ul.fancytree-container li{
+    margin-bottom: 3px;
+    margin-top: 3px
+}
+
 span.fancytree-title{
     color: var(--wi-default-color);
+}
+
+span.fancytree-title input{
+    height: 10px;
 }
 
 .fancytree-plain span.fancytree-title {
@@ -144,7 +153,9 @@ span.fancytree-title{
 }
 .fancytree-plain.fancytree-container.fancytree-treefocus span.fancytree-active span.fancytree-title,
 .fancytree-plain.fancytree-container.fancytree-treefocus span.fancytree-selected span.fancytree-title {
-    background-color: var(--wi-default-bg2-color);
+    background-color: var(--wi-default-bg-color-featured);
+    color: var(--wi-default-color-featured);
+    border-radius: var(--wi-default-border-radius);
     border: 1px solid transparent;
 }
 
@@ -186,7 +197,7 @@ span.fancytree-title{
 }
 
 .tooltipster-sidetip.tooltipster-punk.tooltipster-top .tooltipster-arrow-border {
-    border-top-color: #f71169;
+    border-top-color: var(--wi-default-bg-color-featured);
 }
 
 /**
