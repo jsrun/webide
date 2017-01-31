@@ -68,6 +68,7 @@ define({
     scope: (_this, app, provider, SocketIO, mongodb, env, settings, WebIDE, argv, glob) => { 
         var server = require('http').createServer(app);
         var io = SocketIO(server);
+        _this.set("io", io);
         
         if(env == "dev" || argv.dev == "true"){
             let browserSync = require("browser-sync"),
@@ -86,10 +87,10 @@ define({
                             browserSync.reload("build.min.css");
                     });
 
-                    //browserSync.watch(glob.sync(["public/**/*.js", ".themes/**/*.js", ".core/**/*.js", ".ide/**/*.js", ".plugins/**/*.js"]), (event, file) => {                
-                    //    if (event === "change")
-                    //        browserSync.reload("build.min.js");
-                    //});
+                    browserSync.watch(glob.sync("./**/*.js", {dot: true, cwd: __dirname, ignore: ["./node_modules/*"]}), (event, file) => {                
+                        if (event === "change")
+                            browserSync.reload("build.min.js");
+                    });
 
                     setTimeout(() => { 
                         server.listen(settings[env].port + 1, () => { 

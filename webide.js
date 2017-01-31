@@ -464,9 +464,7 @@ module.exports = function(){
                     if(fs.statSync(__dirname + "/.plugins/wi.plugins." + pluginsKeys + "/template.ejs").isFile())
                         modulesTemplate.push(fs.readFileSync(__dirname + "/.plugins/wi.plugins." + pluginsKeys + "/template.ejs"));
                 }
-                
-                console.log(_this)
-                    
+                                    
                 try{
                     _this.settings.getUser(_this, ((res.user) ? req.user._id : 0), "theme", "default", (theme, settings) => {
                         var template = ejs.render(fs.readFileSync(__dirname + "/static/index.ejs").toString(), {modules: modulesTemplate, theme: theme, __: _this.i18n.__});
