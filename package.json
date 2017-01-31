@@ -1,9 +1,12 @@
 {
     "name": "webide",
-    "version": "0.2.1",
+    "version": "0.3.1",
     "homepage": "http://jsrun.io/webide",
     "author": "André Ferreira <andrehrf@gmail.com>",
-    "scripts": {"start": "node app.js"},
+    "scripts": {
+        "start": "node app.js",
+        "test": "mocha"
+    },
     "preferGlobal": true,
     "license": "MIT",
     "repository": {
@@ -15,7 +18,7 @@
     "dependenciesCore": {
         "wi.core._": "master",
         "wi.core.atom": "master",
-        "wi.core.commands": "master",
+        "wi.core.commands": "#e4b636f83f",
         "wi.core.menu": "master",
         "wi.core.navbar": "master",
         "wi.core.panelsbar": "master",
@@ -23,7 +26,7 @@
         "wi.core.settings": "master",
         "wi.core.statusbar": "master",
         "wi.core.tabs": "master",
-        "wi.core.terminal": "master",
+        "wi.core.terminal": "#92300ac50f",
         "wi.core.treeview": "master",
         "wi.core.windows": "master",
         "wi.core.workspace": "master"
@@ -38,7 +41,7 @@
     "dependenciesPlugins": {
     },
     "dependencies": {
-        "organized": "^0.5.2",
+        "organized": "^1.0.2",
         "optimist": "^0.6.1",
         "express": "^4.13.4",
         "ejs": "^2.5.1",
@@ -82,6 +85,8 @@
     "devDependencies": {
         "browser-sync": "^2.11.1",
         "gulp": "^3.9.1",
-        "gulp-nodemon": "^2.0.6"
+        "gulp-nodemon": "^2.0.6",
+        "mocha": "^3.2.0",
+        "chai": "^3.5.0"
     }
 }

@@ -202,5 +202,11 @@
 	"Undo": "Undo",
 	"": "",
 	"Redo": "Redo",
-	"Project": "Project"
+	"Project": "Project",
+	"New Template...": "New Template...",
+	"Web Extension": "Web Extension",
+	"WebIDE Module": "WebIDE Module",
+	"WebIDE Plugin": "WebIDE Plugin",
+	"Node.js + Express": "Node.js + Express",
+	"Web Component": "Web Component"
 }
