@@ -1,6 +1,6 @@
 {
     "name": "webide",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "homepage": "http://jsrun.io/webide",
     "author": "André Ferreira <andrehrf@gmail.com>",
     "scripts": {
@@ -18,24 +18,25 @@
     "dependenciesCore": {
         "wi.core._": "master",
         "wi.core.atom": "master",
-        "wi.core.commands": "#e4b636f83f",
+        "wi.core.commands": "#e5f83e423b",
+        "wi.core.forms": "master",
         "wi.core.menu": "master",
         "wi.core.navbar": "master",
-        "wi.core.panelsbar": "master",
         "wi.core.run": "master",
         "wi.core.settings": "master",
+        "wi.core.sidebar": "master",
         "wi.core.statusbar": "master",
         "wi.core.tabs": "master",
-        "wi.core.terminal": "#92300ac50f",
+        "wi.core.template": "master",
+        "wi.core.terminal": "#5733bd33a6",
         "wi.core.treeview": "master",
         "wi.core.windows": "master",
-        "wi.core.workspace": "master"
     },
     "dependenciesIDE": {
         "wi.ide.ace": "master",
+        "wi.ide.database": "master",
         "wi.ide.file": "master",
         "wi.ide.fonts": "master",
-        "wi.ide.forms": "master",
         "wi.ide.messages": "master"
     },
     "dependenciesPlugins": {

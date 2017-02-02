@@ -16,7 +16,6 @@ let fs = require("fs"),
     path = require("path"),
     _ = require("lodash"),
     async = require("async"),
-    SystemException = require("./.core/wi.core.exception.js"),
     chokidar = require("chokidar"),
     glob = require('glob');
 
